@@ -4,14 +4,23 @@ const path = require('path');
 const socketIo = require('socket.io');
 const admin = require('firebase-admin');
 
-// IMPORTANT: Check if serviceAccountKey.json exists
+// --- Load Firebase credentials from environment variable ---
 let serviceAccount;
-try {
-    serviceAccount = require('./serviceAccountKey.json');
-} catch (error) {
-    console.error("FATAL ERROR: serviceAccountKey.json not found!");
-    console.error("Please ensure the service account key file is present in the root directory.");
-    process.exit(1); // Exit the process if the key is not found
+if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+    try {
+        serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
+    } catch (error) {
+        console.error("Error parsing GOOGLE_SERVICE_ACCOUNT_JSON:", error);
+        process.exit(1);
+    }
+} else {
+    // Fallback for local development
+    try {
+        serviceAccount = require('./serviceAccountKey.json');
+    } catch (error) {
+        console.error("FATAL ERROR: serviceAccountKey.json not found and GOOGLE_SERVICE_ACCOUNT_JSON is not set.");
+        process.exit(1);
+    }
 }
 
 admin.initializeApp({
@@ -22,38 +31,20 @@ const auth = admin.auth();
 
 const app = express();
 const server = http.createServer(app);
-
-const io = socketIo(server, {
-  cors: {
-    origin: "*", // Allows all origins
-    methods: ["GET", "POST"]
-  }
-});
+const io = socketIo(server, { cors: { origin: "*", methods: ["GET", "POST"] } });
 
 app.use(express.static('public'));
 
-// --- THIS IS THE FIX ---
-// Explicitly serve index.html for the root route
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+app.get('/', (req, res) => { res.sendFile(path.join(__dirname, 'public', 'index.html')); });
+app.get('/admin', (req, res) => { res.sendFile(path.join(__dirname, 'public', 'admin.html')); });
 
-app.get('/admin', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'admin.html'));
-});
-
-// New route to get TURN server credentials
 app.get('/ice-servers', async (req, res) => {
-    // This part requires Twilio credentials to be set as environment variables
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
     const authToken = process.env.TWILIO_AUTH_TOKEN;
-    
     if (!accountSid || !authToken) {
-        // If credentials are not set, return only STUN servers
         console.warn("Twilio credentials not set. Returning STUN servers only.");
         return res.send([{ urls: 'stun:stun.l.google.com:19302' }]);
     }
-
     const twilio = require('twilio')(accountSid, authToken);
     try {
         const token = await twilio.tokens.create();
@@ -64,7 +55,7 @@ app.get('/ice-servers', async (req, res) => {
     }
 });
 
-// All your existing socket.io logic...
+// All your existing socket.io logic... (No changes needed here)
 let waitingPool = []; 
 const userPartners = {}; 
 const socketToUser = {}; 
