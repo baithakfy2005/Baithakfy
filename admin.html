@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baithakfy // Admin Control</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <!-- Password Protection -->
+    <div id="password-prompt" class="modal-overlay">
+        <div class="modal-box">
+            <h2>Admin Access Required</h2>
+            <p>Please enter the administrator password.</p>
+            <input type="password" id="admin-password-input" placeholder="Password">
+            <button id="admin-login-button">Login</button>
+            <p id="admin-error" class="error-message"></p>
+        </div>
+    </div>
+
+    <!-- Main Admin Panel -->
+    <div id="admin-panel" class="hidden">
+        <header>
+            <h1 class="glitch" data-text="ADMIN PANEL">ADMIN PANEL</h1>
+            <nav>
+                <button id="nav-dashboard" class="nav-button active">Dashboard</button>
+                <button id="nav-users" class="nav-button">User Management</button>
+                <button id="nav-reports" class="nav-button">Report Management</button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Dashboard View -->
+            <section id="dashboard-view" class="view">
+                <h2>Dashboard</h2>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h3>Total Users</h3>
+                        <p id="total-users-stat">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Reports</h3>
+                        <p id="total-reports-stat">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Currently Suspended</h3>
+                        <p id="suspended-users-stat">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Management View -->
+            <section id="users-view" class="view hidden">
+                <h2>User Management</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Name</th>
+                                <th>Report Count</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- User data will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Report Management View -->
+            <section id="reports-view" class="view hidden">
+                <h2>Report Management</h2>
+                 <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Reported User</th>
+                                <th>Reporter</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reports-table-body">
+                            <!-- Report data will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <!-- Socket.IO and Admin Script -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

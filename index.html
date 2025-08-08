@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baithakfy // Secure Chat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="canvas-container"></div>
+
+    <div id="auth-container" class="auth-container">
+        <div class="auth-box">
+            <h1 class="glitch" data-text="BAITHAKFY">BAITHAKFY</h1>
+            <button id="google-signin-button" class="google-btn">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google icon">
+                <span>Sign in with Google</span>
+            </button>
+            <div class="separator">OR</div>
+            <form id="login-form" class="auth-form">
+                <input type="email" id="login-email" placeholder="Login with Email" required autocomplete="email">
+                <input type="password" id="login-password" placeholder="Password" required autocomplete="current-password">
+                <button type="submit">Login</button>
+            </form>
+            <p id="auth-error" class="error-message"></p>
+        </div>
+    </div>
+    
+    <div id="lobby-container" class="start-screen-container hidden">
+         <div class="start-box">
+            <h2 id="welcome-message"></h2>
+            <p>Ready to connect to the Grid?</p>
+            <button id="startChatButton">Start</button>
+            <button id="logoutButton">Logout</button>
+        </div>
+    </div>
+
+    <div id="main-chat" class="main-container hidden">
+        <div class="chat-area">
+            <div class="video-section">
+                <div class="video-wrapper">
+                    <video id="localVideo" autoplay muted playsinline></video>
+                    <span class="video-label">You</span>
+                </div>
+                <div class="video-wrapper">
+                    <video id="remoteVideo" autoplay playsinline></video>
+                    <span class="video-label">Stranger</span>
+                </div>
+            </div>
+             <div class="controls">
+                <button id="muteButton" class="control-button hidden">🎤 Mute</button>
+                <button id="videoButton" class="control-button hidden">📸 Video Off</button>
+                <button id="reportButton" class="control-button hidden">🚩 Report</button>
+                <button id="nextButton" class="hidden">Next Partner</button>
+                <p id="statusText"></p>
+            </div>
+        </div>
+        <div class="text-chat-section">
+            <div id="chatLog" class="chat-log"></div>
+            <p id="typingIndicator" class="typing-indicator"></p>
+            <div class="chat-input-area">
+                <button id="emojiButton" disabled>😀</button>
+                <input type="text" id="chatInput" placeholder="Transmit a message..." disabled>
+                <button id="sendMessageButton" disabled>Send</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="report-modal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <h2>Report User</h2>
+            <p>Please select a reason for reporting this user. False reports may affect your trust score.</p>
+            <form id="report-form">
+                <label><input type="radio" name="report-reason" value="inappropriate_video" checked> Inappropriate Video/Behavior</label>
+                <label><input type="radio" name="report-reason" value="hate_speech"> Hate Speech or Bullying</label>
+                <label><input type="radio" name="report-reason" value="spam_or_scam"> Spam or Scam</label>
+                <label><input type="radio" name="report-reason" value="nudity"> Nudity or Sexual Content</label>
+            </form>
+            <div class="modal-buttons">
+                <button id="cancel-report-button" type="button">Cancel</button>
+                <button id="submit-report-button" type="button">Submit Report</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="notificationSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_2c6496d4ac.mp3" preload="auto"></audio>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+:root {
+    --font-primary: 'Poppins', sans-serif;
+    --font-display: 'Orbitron', sans-serif;
+    --color-bg: #02001a;
+    --color-neon-cyan: #00f6ff;
+    --color-neon-pink: #ff00ff;
+    --color-danger-red: #ff1e53;
+    --color-success-green: #00ff89;
+    --container-bg: rgba(10, 0, 30, 0.8);
+    --border-color: rgba(0, 246, 255, 0.3);
+}
+
+body {
+    font-family: var(--font-primary);
+    margin: 0;
+    color: #eee;
+    background-color: var(--color-bg);
+}
+
+.hidden { display: none !important; }
+
+/* --- Password Modal --- */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+.modal-box { background: var(--container-bg); border: 1px solid var(--border-color); padding: 30px 40px; border-radius: 10px; text-align: center; max-width: 400px; box-shadow: 0 0 40px rgba(0, 246, 255, 0.2); }
+.modal-box h2 { font-family: var(--font-display); color: var(--color-neon-cyan); }
+.modal-box input { width: 100%; padding: 12px; margin: 15px 0; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 5px; color: white; font-size: 1rem; box-sizing: border-box; }
+.modal-box button { font-family: var(--font-display); font-size: 1rem; padding: 12px 30px; border: 1px solid var(--color-neon-cyan); background: transparent; color: var(--color-neon-cyan); cursor: pointer; transition: background-color 0.3s; }
+.modal-box button:hover { background-color: rgba(0, 246, 255, 0.1); }
+.error-message { color: var(--color-danger-red); height: 20px; font-size: 0.9rem; }
+
+/* --- Main Panel Layout --- */
+header {
+    background: var(--container-bg);
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+.glitch { font-family: var(--font-display); font-size: 2.5rem; color: var(--color-neon-cyan); margin: 0 0 20px 0; }
+nav { display: flex; justify-content: center; gap: 15px; }
+.nav-button { font-family: var(--font-display); font-size: 1rem; padding: 10px 20px; border: 1px solid var(--border-color); background: transparent; color: #ccc; cursor: pointer; transition: all 0.3s; }
+.nav-button.active, .nav-button:hover { color: var(--color-neon-cyan); background-color: rgba(0, 246, 255, 0.1); border-color: var(--color-neon-cyan); }
+
+main { padding: 30px; }
+.view h2 { border-bottom: 2px solid var(--color-neon-pink); padding-bottom: 10px; margin-bottom: 20px; font-family: var(--font-display); }
+
+/* Dashboard Stats */
+.stats-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+.stat-card { background: var(--container-bg); padding: 25px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center; }
+.stat-card h3 { margin: 0 0 10px 0; font-family: var(--font-display); color: #ccc; }
+.stat-card p { font-size: 2.5rem; margin: 0; color: var(--color-neon-cyan); font-weight: bold; }
+
+/* Tables */
+.table-container { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
+thead { background-color: rgba(0, 246, 255, 0.1); }
+th { font-family: var(--font-display); }
+tbody tr:hover { background-color: rgba(255, 255, 255, 0.05); }
+.status-suspended { color: var(--color-danger-red); font-weight: bold; }
+.status-active { color: var(--color-success-green); }
+
+.action-button { font-size: 0.9rem; padding: 5px 10px; border-radius: 4px; cursor: pointer; border: 1px solid; background-color: transparent; }
+.suspend-btn { color: var(--color-danger-red); border-color: var(--color-danger-red); }
+.unsuspend-btn { color: var(--color-success-green); border-color: var(--color-success-green); }
